@@ -14,7 +14,6 @@ class infoscreen extends StatelessWidget {
       body:
       ListView(
         children: <Widget>[
-
            ListTile(
               leading:
                 Icon(

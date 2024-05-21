@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:pp/menu.dart';
-import 'package:pp/seasonal.dart';
 import 'package:pp/shop.dart';
+import 'package:pp/seasonal.dart';
 import 'info.dart';
 
 
@@ -53,9 +53,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   static const _screens = [
     infoscreen(),
-    seasonalscreen(),
     menuscreen(),
-    shopscreen()
+    shopscreen(),
+    seasonalscreen()
   ];
 
   int _selectedIndex = 0;
@@ -116,16 +116,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 label: 'おしらせ',
               ),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.favorite_sharp),
-                  label: '季節限定',
-                ),
-              BottomNavigationBarItem(
               icon: Icon(Icons.menu_book),
               label: 'メニュー',
               ),
               BottomNavigationBarItem(
               icon: Icon(Icons.house),
               label: '店舗一覧',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.phone),
+                label: 'お問い合わせ',
               ),
             ],
         ),
