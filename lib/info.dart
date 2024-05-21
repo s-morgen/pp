@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+//お知らせ画面
 class infoscreen extends StatelessWidget {
   const infoscreen({super.key});
 
@@ -8,7 +8,13 @@ class infoscreen extends StatelessWidget {
     return  Scaffold(
       appBar: AppBar(
         centerTitle: true, //タイトル中央揃え
-        title: Text('おしらせ',style: TextStyle(color: Colors.white,)),
+        title:
+        const Text('おしらせ',
+            style:
+              TextStyle(
+                color: Colors.white,
+              ),
+        ),
         backgroundColor: Color.fromRGBO(200,38,31,1),
       ),
       body:

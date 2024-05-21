@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+//お問い合わせ画面
 class seasonalscreen  extends StatelessWidget {
   const seasonalscreen ({super.key});
 
@@ -38,9 +39,6 @@ class seasonalscreen  extends StatelessWidget {
         ),
       );
     return  Scaffold(
-        appBar: AppBar(
-        title: Text('iii'),
-      ),
       body:  SafeArea(
         child:Column(
           children: [
