@@ -51,7 +51,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   get bottomNavigationBar => null;
 
-  static const _screens = [
+  static List<StatelessWidget> _screens = [
     infoscreen(),
     menuscreen(),
     shopscreen(),

@@ -69,21 +69,21 @@ class infoscreen extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(20.0),
-                child: ListTile(
-                  leading: Image.asset('assets/image/pp-meronsoft.jpg',width: 100),
-                  title: Text('北海道メロンソフトが新登場'),
-                  subtitle: Text('みずみずしい甘さとフルーティな香りが漂う、ちょっと贅沢なソフトクリームです。'),
-                  shape: RoundedRectangleBorder(
-                    side: const BorderSide(
-                      color: Colors.red,
-                      width: 0.5,
+              padding: const EdgeInsets.all(20.0),
+                  child: ListTile(
+                    leading: Image.asset('assets/image/pp-meronsoft.jpg',width: 100),
+                    title: Text('北海道メロンソフトが新登場'),
+                    subtitle: Text('みずみずしい甘さとフルーティな香りが漂う、ちょっと贅沢なソフトクリームです。'),
+                    shape: RoundedRectangleBorder(
+                      side: const BorderSide(
+                        color: Colors.red,
+                        width: 0.5,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
                     ),
-                    borderRadius: BorderRadius.circular(20),
+                    isThreeLine: true,
                   ),
-                  isThreeLine: true,
-                ),
-          ),
+            ),
           ListTile(
             leading:
               Icon(
