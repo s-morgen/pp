@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
 
 //メニュー画面の詳細
 class menudetailscreen extends StatelessWidget {
@@ -22,6 +23,14 @@ class menudetailscreen extends StatelessWidget {
             ),
           ),
           backgroundColor: Color.fromRGBO(250,196,16,1),
+          actions: <Widget>[
+            IconButton(
+                onPressed: (){
+                  Share.share('元気いっぱいのファーストフードショップ ポッポの「' + name + '」');
+            },
+                icon: Icon(Icons.share)
+            ),
+          ],
         ),
         body: Column(
               children: [
