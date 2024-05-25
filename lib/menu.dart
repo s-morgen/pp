@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:pp/manudetail.dart';
 
 //メニュー項目イラスト画像引用元
 //https://illustimage.com/
@@ -12,17 +13,22 @@ import 'package:flutter/material.dart';
 class  menuscreen extends StatelessWidget {
    menuscreen ({super.key});
 
-   var datas = [
-     {'icon': Icons.person,'title': "人物アイコン",},
-     {'icon': Icons.mail,'title': "メールアイコン",},
-     {'icon': Icons.map,'title': "地図アイコン",},
-     {'icon': Icons.map,'title': "地図アイコン",},
-     {'icon': Icons.map,'title': "地図アイコン",},
-     {'icon': Icons.play_arrow,'title': "再生ボタン",},
-     {'icon': Icons.photo_sharp,'title': "写真アイコン",},
+   List newmenu = [
+     "冷やし中華","ミチャーハン", "チャーハン"
+   ];
+   List newvalue = [
+     "税込　2900円","税込　290円", "税込　11290円"
    ];
 
-  @override
+   List newimage = [
+     'assets/menu/New/pp-hiyashicyuuka.jpg','assets/menu/mesi/pp-mini-chahan.jpg','assets/menu/mesi/pp-mini-chahan.jpg',
+   ];
+
+   List  newtap = [
+     '11','22','33'
+   ];
+
+   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
     double _height = MediaQuery.of(context).size.height;
@@ -85,26 +91,34 @@ class  menuscreen extends StatelessWidget {
           children: <Widget>[
 
 
-            ListTile(
-
-                onTap: () {
-                  // タップ時の処理
-                  print("みなさん、こんにちわ");
-                },
-                title: Column(
-                  children:<Widget>[
-                    Image.asset('assets/menu/mesi/pp-mini-chahan.jpg'),
-                    Text('ミチャーハン'),
-                    Text('税込　290円'),
-                  ]
-                ),
-              subtitle: Text('sss'),
-
+            ListView.builder(
+              itemCount: newmenu.length,
+              itemBuilder: (context,index) {
+                return ListTile(
+                    onTap: (){
+                      //print(newtap[index]);
+                      //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                          menudetailscreen(newimage[index],newmenu[index],newvalue[index])
+                      ));
+                    },
+                    title: Column(
+                      children: <Widget>[
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.asset(newimage[index]),
+                        ),
+                        Text(newmenu[index]), //メニュー名
+                        Text(newvalue[index]), //価格
+                      ]
+                    ),
+                );
+              }
             ),
             SingleChildScrollView(
               child: GestureDetector(
                 onTap: (){
-                  debugPrint('ssss');
+                  //debugPrint('ssss');
                 }
                 ,
                 child: Column(
