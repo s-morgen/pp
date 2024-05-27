@@ -34,10 +34,13 @@ class menudetailscreen extends StatelessWidget {
         ),
         body: Column(
               children: [
-                Container(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Image.asset(image),
-                ),
+                  Container(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child:Image.asset(image),
+                    ),
+                  ),
 
                 Container(
                   padding: const EdgeInsets.all(8.0),
