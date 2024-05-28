@@ -5,11 +5,12 @@ import 'package:share_plus/share_plus.dart';
 class menudetailscreen extends StatelessWidget {
 
   //引数1:メニュー画像　引数2:メニュータイトル 引数3:価格
-  menudetailscreen(this.image,this.name,this.value);
+  menudetailscreen(this.image,this.name,this.value,this.text);
 
   String image;
   String name;
   String value;
+  String text;
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +65,7 @@ class menudetailscreen extends StatelessWidget {
               ),
               Container(
                 padding: const EdgeInsets.all(8.0),
-                child: Text('リンゴ酢を配合したフルーティな酸味のある醤油ベースのタレに、もちもち麺と冷し中華定番具材（チャーシュー、錦糸卵、トマト、キュウリ、わかめ、紅生姜）をあわせた、何処か昔懐かしい味わいの定番冷し中華です。'),
+                child: Text(text),
               ),
               Container(
                   padding: const EdgeInsets.all(8.0),

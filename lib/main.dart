@@ -1,3 +1,5 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'menu.dart';
 import 'shop.dart';
@@ -5,7 +7,10 @@ import 'seasonal.dart';
 import 'info.dart';
 
 
-void main() {
+void main() async {
+  final storage = FirebaseStorage.instance; //firebase Cloud Storage初期化
+  WidgetsFlutterBinding.ensureInitialized(); //store初期化
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 

@@ -1,7 +1,11 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pp/manudetail.dart';
+import 'model.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+
 
 //メニュー項目イラスト画像引用元
 //https://illustimage.com/
@@ -13,20 +17,16 @@ import 'package:pp/manudetail.dart';
 class  menuscreen extends StatelessWidget {
    menuscreen ({super.key});
 
-   List newmenu = [
-     "冷やし中華","ミチャーハン", "チャーハン"
-   ];
-   List newvalue = [
-     "税込　2900円","税込　290円", "税込　11290円"
-   ];
-
    List newimage = [
-     'assets/menu/New/pp-hiyashicyuuka.jpg','assets/menu/mesi/pp-mini-chahan.jpg','assets/menu/mesi/pp-mini-chahan.jpg',
+     'assets/menu/ramen/pp-tonkotu-ramen.jpg','assets/menu/ramen/pp-hiyashicyuuka.jpg','assets/menu/mesi/pp-mini-chahan.jpg','assets/menu/ramen/pp-hiyashicyuuka.jpg',
    ];
 
-   List  newtap = [
-     '11','22','33'
-   ];
+   Future<List<Person>> _fetchPersons() async {
+     final firestore = FirebaseFirestore.instance;
+     final snapshot = await firestore.collection('menu').get();
+     final persons = snapshot.docs.map((doc) => Person.fromMap(doc.data())).toList();
+     return persons;
+   }
 
    @override
   Widget build(BuildContext context) {
@@ -89,32 +89,48 @@ class  menuscreen extends StatelessWidget {
         ),
         body: TabBarView(
           children: <Widget>[
+                         FutureBuilder<List<Person>>(
+                          future: _fetchPersons(),
+                          builder: (context, snapshot) {
 
+                            //データ読み込み時は読み込みを表すサークルを表示
+                            if (snapshot.connectionState == ConnectionState.waiting) {
+                              return Center(child: CircularProgressIndicator());
+                            }
+                            //エラー時の処理
+                            if (snapshot.hasError) {
+                              return Center(child: Text('Error: ${snapshot.error}'));
+                            }
 
-            ListView.builder(
-              itemCount: newmenu.length,
-              itemBuilder: (context,index) {
-                return ListTile(
-                    onTap: (){
-                      //print(newtap[index]);
-                      //Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
-                          menudetailscreen(newimage[index],newmenu[index],newvalue[index])
-                      ));
-                    },
-                    title: Column(
-                      children: <Widget>[
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.asset(newimage[index]),
+                            final persons = snapshot.data!;
+
+                            return ListView.builder(
+                            // Listのデータの数を数える
+                                 itemCount: persons.length,
+                                 itemBuilder: (context, index) {
+                                  final person = persons[index];
+                                  return ListTile(
+                                    onTap: (){
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                                          menudetailscreen(newimage[index],person.title,person.value,person.text)
+                                      ));
+                                    },
+                                      title: Column(
+                                        children: <Widget>[
+                                            ClipRRect(
+                                              borderRadius: BorderRadius.circular(10),
+                                              child: Image.asset(newimage[index]),
+                                            ),
+                                        // Personクラスのメンバ変数を使用する
+                                            Text('${person.title}'),
+                                            Text('${person.value}'),
+                                        ],
+                                      ),
+                                  );
+                                },
+                            );
+                          },
                         ),
-                        Text(newmenu[index]), //メニュー名
-                        Text(newvalue[index]), //価格
-                      ]
-                    ),
-                );
-              }
-            ),
             SingleChildScrollView(
               child: GestureDetector(
                 onTap: (){
@@ -224,9 +240,16 @@ class  menuscreen extends StatelessWidget {
             ),
           ],
         ),
+
       ),
     );
   }
-
+   Stream<dynamic> getStream() {
+      //Firebase.initializeApp();
+     final db = FirebaseFirestore.instance;
+     final collectionRef = db.collection('menu').snapshots();
+     // TODO: streamを返す処理を実装する
+     return collectionRef;
+   }
 
 }
