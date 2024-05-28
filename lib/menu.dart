@@ -1,10 +1,12 @@
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pp/manudetail.dart';
 import 'model.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+
 
 
 //メニュー項目イラスト画像引用元
@@ -112,18 +114,23 @@ class  menuscreen extends StatelessWidget {
                                   return ListTile(
                                     onTap: (){
                                       Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
-                                          menudetailscreen(newimage[index],person.title,person.value,person.text)
+                                          menudetailscreen(person.imgURL,person.title,person.value,person.text)
                                       ));
                                     },
                                       title: Column(
                                         children: <Widget>[
                                             ClipRRect(
                                               borderRadius: BorderRadius.circular(10),
-                                              child: Image.asset(newimage[index]),
+                                              //child: Image.asset(newimage[index]),
+                                              // child: NetworkImageBuilder(FirebaseStorage.instance
+                                              //     .ref('${person.imgURL}')
+                                              //     .getDownloadURL()),
+                                              child: Image.network('${person.imgURL}'),
                                             ),
                                         // Personクラスのメンバ変数を使用する
-                                            Text('${person.title}'),
-                                            Text('${person.value}'),
+                                            //Text('${person.imgURL}'), //メニュー名
+                                            Text('${person.title}'), //メニュー名
+                                            Text('${person.value}'), //価格
                                         ],
                                       ),
                                   );
@@ -244,12 +251,26 @@ class  menuscreen extends StatelessWidget {
       ),
     );
   }
-   Stream<dynamic> getStream() {
-      //Firebase.initializeApp();
-     final db = FirebaseFirestore.instance;
-     final collectionRef = db.collection('menu').snapshots();
-     // TODO: streamを返す処理を実装する
-     return collectionRef;
-   }
 
+
+}
+//Storageに保存した画像のURLを取得する際のコード
+class NetworkImageBuilder extends FutureBuilder {
+  NetworkImageBuilder(Future<String> item)
+      : item = item,
+        super(
+        future: item,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return CachedNetworkImage(
+              imageUrl: snapshot.data,
+              placeholder: (context, url) => CircularProgressIndicator(),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+            );
+          } else {
+            return CircularProgressIndicator();
+          }
+        },
+      );
+  final Future<String> item;
 }

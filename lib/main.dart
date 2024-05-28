@@ -8,9 +8,11 @@ import 'info.dart';
 
 
 void main() async {
-  final storage = FirebaseStorage.instance; //firebase Cloud Storage初期化
+
   WidgetsFlutterBinding.ensureInitialized(); //store初期化
   await Firebase.initializeApp();
+
+  final storage = FirebaseStorage.instance; //firebase Cloud Storage初期化
   runApp(const MyApp());
 }
 
