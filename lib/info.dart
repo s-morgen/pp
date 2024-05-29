@@ -1,7 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:pp/model.dart';
 //お知らせ画面
 class infoscreen extends StatelessWidget {
   const infoscreen({super.key});
+
+  //お知らせ情報をforebaseから取得
+  Future<List<news_list>> _fetchPersons() async {
+    final firestore = FirebaseFirestore.instance;
+    final snapshot = await firestore.collection('news').get();
+    final person = snapshot.docs.map((doc) => news_list.fromMap(doc.data())).toList();
+    return person;
+  }
 
   @override
   Widget  build(BuildContext context) {
@@ -102,6 +112,7 @@ class infoscreen extends StatelessWidget {
             subtitle: Text('一部店舗では曜日・時間帯で販売出来ないメニューがある場合がございます。食材仕入の都合により一部メニューの食材に変更がある場合がございます。お客様にはご不便をおかけいたしますがご理解賜りますようお願い申しあげます。'),
             isThreeLine: true,
           ),
+
         ],
 
       ),

@@ -1,11 +1,8 @@
-import 'dart:math';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pp/manudetail.dart';
 import 'model.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 
 
 
@@ -19,10 +16,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 class  menuscreen extends StatelessWidget {
    menuscreen ({super.key});
 
-   List newimage = [
-     'assets/menu/ramen/pp-tonkotu-ramen.jpg','assets/menu/ramen/pp-hiyashicyuuka.jpg','assets/menu/mesi/pp-mini-chahan.jpg','assets/menu/ramen/pp-hiyashicyuuka.jpg',
-   ];
 
+  //メニュー情報をforebaseから取得
    Future<List<Person>> _fetchPersons() async {
      final firestore = FirebaseFirestore.instance;
      final snapshot = await firestore.collection('menu').get();
@@ -38,6 +33,7 @@ class  menuscreen extends StatelessWidget {
       initialIndex: 0, //最初のタブ
       length: 7, //タブの数
       child: Scaffold(
+        backgroundColor: Colors.yellow[50],
         appBar: AppBar(
           centerTitle: true,
           title: const Text('メニュー',
@@ -104,36 +100,53 @@ class  menuscreen extends StatelessWidget {
                               return Center(child: Text('Error: ${snapshot.error}'));
                             }
 
-                            final persons = snapshot.data!;
+                            final persons = snapshot.data! ;
 
                             return ListView.builder(
                             // Listのデータの数を数える
                                  itemCount: persons.length,
                                  itemBuilder: (context, index) {
-                                  final person = persons[index];
-                                  return ListTile(
-                                    onTap: (){
-                                      Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
-                                          menudetailscreen(person.imgURL,person.title,person.value,person.text)
-                                      ));
-                                    },
-                                      title: Column(
-                                        children: <Widget>[
-                                            ClipRRect(
-                                              borderRadius: BorderRadius.circular(10),
-                                              //child: Image.asset(newimage[index]),
-                                              // child: NetworkImageBuilder(FirebaseStorage.instance
-                                              //     .ref('${person.imgURL}')
-                                              //     .getDownloadURL()),
-                                              child: Image.network('${person.imgURL}'),
-                                            ),
-                                        // Personクラスのメンバ変数を使用する
-                                            //Text('${person.imgURL}'), //メニュー名
-                                            Text('${person.title}'), //メニュー名
-                                            Text('${person.value}'), //価格
-                                        ],
+
+                                   final person = persons[index];
+                                   //final menu_list = persons;
+
+                                   // for(int i = 0; i<persons.length; i++) {
+                                   //   if (persons[i].No == "新登場") {
+                                   //     // print(persons[i].title);
+                                   //     // //print(index);
+                                   //     }else{
+                                   //     menu_list.remove(persons[i]);
+                                   //     // print('$menu_list');
+                                   //    }
+                                   //  }
+
+                                    return Card( //枠線に影をつけるためcardでネスト
+                                      child: ListTile(
+                                        onTap: (){
+                                          Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                                              menudetailscreen(person.imgURL,person.title,person.value,person.text,person.id)
+                                          ));
+                                        },
+                                          title: Column(
+                                            children: <Widget>[
+                                                ClipRRect(
+                                                  borderRadius: BorderRadius.circular(10),
+                                                  //ネットワークから取得した画像をキャッシュから表示
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: '${person.imgURL}',
+                                                    progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                                        CircularProgressIndicator(value: downloadProgress.progress), //読み込み中はサークルを表示
+                                                    errorWidget: (context, url, dynamic error) => const Icon(Icons.error), //エラー時はエラーアイコンを表示
+                                                  ),
+                                                ),
+
+                                                Text('${person.title}'), //メニュー名
+                                                Text('${person.value}'), //価格
+                                            ],
+                                          ),
                                       ),
-                                  );
+                                    );
+
                                 },
                             );
                           },
