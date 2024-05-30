@@ -142,7 +142,12 @@ class infoscreen extends StatelessWidget {
               },
               title: Column(
                 children: [
-                  Image.asset('assets/info/pp-info-takoyaki-kodawari-img2.jpg'),
+                  ClipRRect(
+                      borderRadius:
+                        BorderRadius.circular(10),
+                      child:
+                        Image.asset('assets/info/pp-info-takoyaki-kodawari-img2.jpg'),
+                  ),
                   Text('看板商品「たこ焼」「らーめん」「今川焼」'),
                   Text('そのおいしさの秘密をご紹介します。'),
                   //isThreeLine: true,

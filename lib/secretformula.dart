@@ -1,20 +1,17 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:pp/model.dart';
 
-import 'manudetail.dart';
 //お知らせ画面
 class secretformula extends StatelessWidget {
-  const secretformula({super.key});
+   secretformula({super.key});
 
-  //お知らせ情報をforebaseから取得
-  Future<List<news_list>> _fetchPersons() async {
-    final firestore = FirebaseFirestore.instance;
-    final snapshot = await firestore.collection('news').where('display', isEqualTo: true).orderBy('no').get();
-    final person = snapshot.docs.map((doc) => news_list.fromMap(doc.data())).toList();
-    return person;
-  }
+   List kanbanmenu = [
+    "たこ焼き","ラーメン", "今川焼き"
+  ];
+
+   List kanbanimg = [
+     "assets/info/pp-pickUp-takoyaki-img.jpg","assets/info/pp-pickUp-ramen-img.jpg", "assets/info/pp-pickUp-koganeyaki-img.jpg"
+   ];
+
 
   @override
   Widget  build(BuildContext context) {
@@ -47,61 +44,23 @@ class secretformula extends StatelessWidget {
                 ),
               ),
             ),
-          FutureBuilder<List<news_list>>(
-              future: _fetchPersons(),
-              builder: (context, snapshot) {
-
-                //データ読み込み時は読み込みを表すサークルを表示
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                }
-                //エラー時の処理
-                if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                }
-
-                final persons = snapshot.data! ;
-
-                return ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  // Listのデータの数を数える
-                  itemCount: persons.length,
-                  itemBuilder: (context, index) {
-
-                    final person = persons[index];
-
-                    return Card( //枠線に影をつけるためcardでネスト
-                      child: ListTile(
-                        tileColor: Colors.yellow[50],
-                        onTap: (){
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
-                              menudetailscreen(person.imgurl,person.title,'',person.text,'')
-                          ));
-                        },
-                        title: Column(
-                          children: [
-                            ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                //ネットワークから取得した画像をキャッシュから表示
-                                child: CachedNetworkImage(
-                                  imageUrl: '${person.imgurl}',
-                                  progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                      CircularProgressIndicator(value: downloadProgress.progress), //読み込み中はサークルを表示
-                                  errorWidget: (context, url, dynamic error) => const Icon(Icons.error), //エラー時はエラーアイコンを表示
-                                ),
-                            ),
-                            Text('${person.title}'), //newsタイトル
-                            //Text('${person.text}'), //news本文
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                );
-              },
+          ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: kanbanmenu.length,
+            itemBuilder: (context, index){
+              return Card(
+                child: ListTile(
+                  title: Column(
+                      children: [
+                        Image.asset(kanbanimg[index]),
+                        Text(kanbanmenu[index]),
+                      ]
+                  ),
+                ),
+              );
+            },
           ),
-
         ],
       ),
     );
