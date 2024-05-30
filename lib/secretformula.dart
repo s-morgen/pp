@@ -53,7 +53,10 @@ class secretformula extends StatelessWidget {
                 child: ListTile(
                   title: Column(
                       children: [
-                        Image.asset(kanbanimg[index]),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child:Image.asset(kanbanimg[index]),
+                        ),
                         Text(kanbanmenu[index]),
                       ]
                   ),
