@@ -1,6 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pp/model.dart';
+
+import 'manudetail.dart';
 //お知らせ画面
 class infoscreen extends StatelessWidget {
   const infoscreen({super.key});
@@ -8,7 +11,7 @@ class infoscreen extends StatelessWidget {
   //お知らせ情報をforebaseから取得
   Future<List<news_list>> _fetchPersons() async {
     final firestore = FirebaseFirestore.instance;
-    final snapshot = await firestore.collection('news').get();
+    final snapshot = await firestore.collection('news').where('display', isEqualTo: true).orderBy('no').get();
     final person = snapshot.docs.map((doc) => news_list.fromMap(doc.data())).toList();
     return person;
   }
@@ -16,6 +19,7 @@ class infoscreen extends StatelessWidget {
   @override
   Widget  build(BuildContext context) {
     return  Scaffold(
+      backgroundColor: Colors.yellow[50],
       appBar: AppBar(
         centerTitle: true, //タイトル中央揃え
         title:
@@ -38,73 +42,75 @@ class infoscreen extends StatelessWidget {
               ),
               //tileColor: Colors.yellow,
               title: Text("新メニューのお知らせ",
-                textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Color.fromRGBO(200,38,31,1),
                 ),
               ),
             ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: ListTile(
-              //tileColor: Colors.yellow,
-              leading: Image.asset('assets/image/pp-hiyasi-cyuka.jpg',width: 100,height: 50,),
-              title: Text("冷やし中華が新登場"),
-              subtitle: Text('リンゴ酢を配合したフルーティな酸味のある醤油ベースのタレに、もちもち麺と冷し中華定番具材（チャーシュー、錦糸卵、トマト、キュウリ、わかめ、紅生姜）をあわせた、何処か昔懐かしい味わいの定番冷し中華です。'),
-              shape: RoundedRectangleBorder(
-                side: const BorderSide(
-                  color: Colors.red,
-                  width: 0.5,
-                ),
-              borderRadius: BorderRadius.circular(20),
-              ),
-              isThreeLine: true,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: ListTile(
-              leading: Image.asset('assets/image/pp-kakigori.jpg',width: 100),
-              title: Text('かき氷が新登場'),
-              subtitle: Text('昭和の縁日をイメージしたお子様が大好きなシンプルかき氷です。'),
-              shape: RoundedRectangleBorder(
-                side: const BorderSide(
-                  color: Colors.red,
-                  width: 0.5,
-                ),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              //onTap: () => print('ListTileが押された'),
-              isThreeLine: true,
-            ),
-          ),
-          Padding(
-              padding: const EdgeInsets.all(20.0),
-                  child: ListTile(
-                    leading: Image.asset('assets/image/pp-meronsoft.jpg',width: 100),
-                    title: Text('北海道メロンソフトが新登場'),
-                    subtitle: Text('みずみずしい甘さとフルーティな香りが漂う、ちょっと贅沢なソフトクリームです。'),
-                    shape: RoundedRectangleBorder(
-                      side: const BorderSide(
-                        color: Colors.red,
-                        width: 0.5,
+          FutureBuilder<List<news_list>>(
+              future: _fetchPersons(),
+              builder: (context, snapshot) {
+
+                //データ読み込み時は読み込みを表すサークルを表示
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                //エラー時の処理
+                if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                }
+
+                final persons = snapshot.data! ;
+
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  // Listのデータの数を数える
+                  itemCount: persons.length,
+                  itemBuilder: (context, index) {
+
+                    final person = persons[index];
+
+                    return Card( //枠線に影をつけるためcardでネスト
+                      child: ListTile(
+                        tileColor: Colors.yellow[50],
+                        onTap: (){
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                              menudetailscreen(person.imgurl,person.title,'',person.text,'')
+                          ));
+                        },
+                        title: Column(
+                          children: [
+                            ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                //ネットワークから取得した画像をキャッシュから表示
+                                child: CachedNetworkImage(
+                                  imageUrl: '${person.imgurl}',
+                                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                      CircularProgressIndicator(value: downloadProgress.progress), //読み込み中はサークルを表示
+                                  errorWidget: (context, url, dynamic error) => const Icon(Icons.error), //エラー時はエラーアイコンを表示
+                                ),
+                            ),
+                            Text('${person.title}'), //newsタイトル
+                            //Text('${person.text}'), //news本文
+                          ],
+                        ),
                       ),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    isThreeLine: true,
-                  ),
-            ),
+                    );
+                  },
+                );
+              },
+          ),
           ListTile(
             leading:
-              Icon(
-                Icons.circle,
-                color: Color.fromRGBO(200,38,31,1),
-              ),
+            Icon(
+              Icons.circle,
+              color: Color.fromRGBO(200,38,31,1),
+            ),
             //tileColor: Colors.yellow,
             title: Text("販売メニューのお知らせ",
-              textAlign: TextAlign.center,
               style: TextStyle(
-                  color: Color.fromRGBO(200,38,31,1),
+                color: Color.fromRGBO(200,38,31,1),
               ),
             ),
           ),
@@ -112,7 +118,6 @@ class infoscreen extends StatelessWidget {
             subtitle: Text('一部店舗では曜日・時間帯で販売出来ないメニューがある場合がございます。食材仕入の都合により一部メニューの食材に変更がある場合がございます。お客様にはご不便をおかけいたしますがご理解賜りますようお願い申しあげます。'),
             isThreeLine: true,
           ),
-
         ],
 
       ),

@@ -123,6 +123,13 @@ class menudetailscreen extends StatelessWidget {
                                   children: <Widget>[
                                     Text('アレルギー情報'),
                                     Text('${person.allergy}'),
+                                    Container(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text('価格は10%税込み価格を表記しています。',
+                                        style: TextStyle(
+                                            color: Colors.red),
+                                      ),
+                                    ),
                                   ],
                                 ),
                           );
@@ -131,13 +138,7 @@ class menudetailscreen extends StatelessWidget {
                     },
                   ),
               ),
-              Container(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('価格は10%税込み価格を表記しています。',
-                    style: TextStyle(
-                      color: Colors.red),
-                  ),
-                ),
+
             ],
         ),
     );

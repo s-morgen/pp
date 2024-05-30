@@ -44,8 +44,8 @@ class  menuscreen extends StatelessWidget {
             isScrollable: true, //スクロールを有効化
             tabs: <Widget>[
               Tab(
-                text: '新登場',
-                icon: Image.asset('assets/menu/new-35px.jpeg',
+                text: 'おすすめ',
+                icon: Image.asset('assets/menu/star-35px.png',
                   fit: BoxFit.contain,
                 ),
               ),
@@ -127,6 +127,7 @@ class  menuscreen extends StatelessWidget {
                                               menudetailscreen(person.imgURL,person.title,person.value,person.text,person.id)
                                           ));
                                         },
+                                        tileColor: Colors.yellow[50],
                                           title: Column(
                                             children: <Widget>[
                                                 ClipRRect(

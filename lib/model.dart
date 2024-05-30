@@ -17,13 +17,13 @@ class Person {
 class news_list {
   final String title;
   final String text;
-  final String imgURL;
-  final String No;
+  final String imgurl;
+  final num no;
 
-  news_list({required this.No,required this.title,  required this.text, required this.imgURL});
+  news_list({required this.no,required this.title,  required this.text, required this.imgurl});
 
   factory news_list.fromMap(Map<String, dynamic> data) {
-    return news_list(No: data['No'],title: data['title'],  text: data['text'], imgURL: data['imgURL']);
+    return news_list(no: data['no'],title: data['title'],  text: data['text'], imgurl: data['imgurl']);
   }
 }
 
