@@ -2,12 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pp/model.dart';
-import 'package:pp/secretformula.dart';
 
 import 'manudetail.dart';
 //お知らせ画面
-class infoscreen extends StatelessWidget {
-  const infoscreen({super.key});
+class secretformula extends StatelessWidget {
+  const secretformula({super.key});
 
   //お知らせ情報をforebaseから取得
   Future<List<news_list>> _fetchPersons() async {
@@ -24,7 +23,7 @@ class infoscreen extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true, //タイトル中央揃え
         title:
-        const Text('おしらせ',
+        const Text('おいしさのわけ',
             style:
               TextStyle(
                 color: Colors.white,
@@ -42,7 +41,7 @@ class infoscreen extends StatelessWidget {
                   color: Color.fromRGBO(200,38,31,1),
               ),
               //tileColor: Colors.yellow,
-              title: Text("新メニューのお知らせ",
+              title: Text("看板商品おいしさの秘密をご紹介します",
                 style: TextStyle(
                     color: Color.fromRGBO(200,38,31,1),
                 ),
@@ -102,54 +101,7 @@ class infoscreen extends StatelessWidget {
                 );
               },
           ),
-          ListTile(
-            leading:
-            Icon(
-              Icons.circle,
-              color: Color.fromRGBO(200,38,31,1),
-            ),
-            //tileColor: Colors.yellow,
-            title: Text("販売メニューのお知らせ",
-              style: TextStyle(
-                color: Color.fromRGBO(200,38,31,1),
-              ),
-            ),
-          ),
-          ListTile(
-            subtitle: Text('一部店舗では曜日・時間帯で販売出来ないメニューがある場合がございます。食材仕入の都合により一部メニューの食材に変更がある場合がございます。お客様にはご不便をおかけいたしますがご理解賜りますようお願い申しあげます。'),
-            isThreeLine: true,
-          ),
-          ListTile(
-            leading:
-            Icon(
-              Icons.circle,
-              color: Color.fromRGBO(200,38,31,1),
-            ),
-            //tileColor: Colors.yellow,
-            title: Text("ポッポのおいしさのわけ",
-              style: TextStyle(
-                color: Color.fromRGBO(200,38,31,1),
-              ),
-            ),
-          ),
-          Card(
-            child: ListTile(
-              tileColor: Colors.yellow[50],
-              onTap:(){
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
-                    secretformula()
-                ));
-              },
-              title: Column(
-                children: [
-                  Image.asset('assets/info/pp-info-takoyaki-kodawari-img2.jpg'),
-                  Text('看板商品「たこ焼」「らーめん」「今川焼」'),
-                  Text('そのおいしさの秘密をご紹介します。'),
-                  //isThreeLine: true,
-                ]
-              ),
-            ),
-          ),
+
         ],
       ),
     );
