@@ -19,7 +19,7 @@ class menudetailscreen extends StatelessWidget {
   //アレルギー情報をfirebaseから取得
   Future<List<get_allergy>> _fetchPersons_allergy() async {
     final firestore = FirebaseFirestore.instance;
-    final snapshot = await firestore.collection('menu').where('id', isEqualTo: id).get();
+    final snapshot = await firestore.collection('menu').where('id', isEqualTo: id).limit(1).get(const GetOptions(source: Source.cache));
     final person = snapshot.docs.map((doc) => get_allergy.fromMap(doc.data())).toList();
     return person;
   }

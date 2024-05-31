@@ -12,7 +12,7 @@ class infoscreen extends StatelessWidget {
   //お知らせ情報をforebaseから取得
   Future<List<news_list>> _fetchPersons() async {
     final firestore = FirebaseFirestore.instance;
-    final snapshot = await firestore.collection('news').where('display', isEqualTo: true).orderBy('no').get();
+    final snapshot = await firestore.collection('news').where('display', isEqualTo: true).orderBy('no').get(const GetOptions(source: Source.cache));
     final person = snapshot.docs.map((doc) => news_list.fromMap(doc.data())).toList();
     return person;
   }
