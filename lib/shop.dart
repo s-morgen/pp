@@ -43,7 +43,7 @@ class  shopscreen extends StatelessWidget {
             child: ListTile(
               onTap: (){
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
-                    shopdetailscreen(todoufuken[index],shopmei[index])
+                    shopdetailscreen(todoufuken[index],shopmei[index],index)
                 ));
               },
               title: Text(todoufuken[index]),
@@ -54,35 +54,6 @@ class  shopscreen extends StatelessWidget {
           );
         },
       ),
-
-
-      // body: ListView(
-      //   children: _getItems(),
-      // ),
-
-
-        // body: Padding(
-        //   padding: const EdgeInsets.all(8.0),
-        //   child: ListView(
-        //     children: [
-        //       ListTile(
-        //         leading: Icon(Icons.person),
-        //         title: Text("人物アイコン"),
-        //         onTap: () {},
-        //       ),
-        //       ListTile(
-        //         leading: Icon(Icons.mail),
-        //         title: Text("メールアイコン"),
-        //         onTap: () {},
-        //       ),
-        //       ListTile(
-        //         leading: Icon(Icons.map),
-        //         title: Text("地図アイコン"),
-        //         onTap: () {},
-        //       )
-        //     ],
-        //   ),
-        // )
     );
   }
 }

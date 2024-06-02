@@ -9,7 +9,7 @@ import 'manudetail.dart';
 class infoscreen extends StatelessWidget {
   const infoscreen({super.key});
 
-  //お知らせ情報をforebaseから取得
+  //お知らせ情報をfirebaseから取得
   Future<List<news_list>> _fetchPersons() async {
     final firestore = FirebaseFirestore.instance;
     final snapshot = await firestore.collection('news').where('display', isEqualTo: true).orderBy('no').get(const GetOptions(source: Source.cache));

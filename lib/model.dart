@@ -27,6 +27,24 @@ class news_list {
   }
 }
 
+//店舗情報用
+class shop_list {
+  final String shop;
+  final String img;
+  final String post;
+  final String address;
+  final String tel;
+  final String time;
+
+  shop_list({required this.shop, required this.img,  required this.post,
+  required this.address,required this.tel,required this.time});
+
+  factory shop_list.fromMap(Map<String, dynamic> data) {
+    return shop_list(shop: data['shop'],  post: data['post'], img: data['img'],
+    address: data['address'],tel: data['tel'],time: data['time']);
+  }
+}
+
 //アレルギー情報取得用
 class get_allergy {
   final String title;
