@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pp/shopdetail.dart';
 
 //店舗一覧画面
 class  shopscreen extends StatelessWidget {
@@ -40,6 +41,11 @@ class  shopscreen extends StatelessWidget {
         itemBuilder: (context, index){
           return Card(
             child: ListTile(
+              onTap: (){
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                    shopdetailscreen(todoufuken[index],shopmei[index])
+                ));
+              },
               title: Text(todoufuken[index]),
               subtitle: Text(shopmei[index]),
 

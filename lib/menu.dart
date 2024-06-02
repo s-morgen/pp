@@ -11,6 +11,7 @@ import 'model.dart';
 
 //メニュー画像引用
 //https://www.itoyokado.co.jp/pp/menu/season/
+//assetsフォルダにあるpp-*から始まる画像はポッポ公式からの引用なので注意
 
 //メニュー画面
 class  menuscreen extends StatelessWidget {
@@ -27,8 +28,8 @@ class  menuscreen extends StatelessWidget {
 
    @override
   Widget build(BuildContext context) {
-    double _width = MediaQuery.of(context).size.width;
-    double _height = MediaQuery.of(context).size.height;
+    // double _width = MediaQuery.of(context).size.width;
+    // double _height = MediaQuery.of(context).size.height;
     return  DefaultTabController(
       initialIndex: 0, //最初のタブ
       length: 7, //タブの数
@@ -50,9 +51,6 @@ class  menuscreen extends StatelessWidget {
                 ),
               ),
              Tab(
-               // child: Padding(
-               //   padding: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
-               // ),
                text: 'ラーメン',
                icon: Image.asset('assets/menu/ramen-35px.png',
                   fit: BoxFit.contain,
@@ -110,15 +108,15 @@ class  menuscreen extends StatelessWidget {
                                    final person = persons[index];
                                    //final menu_list = persons;
 
-                                   // for(int i = 0; i<persons.length; i++) {
-                                   //   if (persons[i].No == "新登場") {
-                                   //     // print(persons[i].title);
-                                   //     // //print(index);
-                                   //     }else{
-                                   //     menu_list.remove(persons[i]);
-                                   //     // print('$menu_list');
-                                   //    }
-                                   //  }
+                                   for(int i = 0; i<persons.length; i++) {
+                                     if (persons[i].No == "新登場") {
+                                       // print(persons[i].title);
+                                       // //print(index);
+                                       }else{
+                                       //menu_list.remove(persons[i]);
+                                       // print('$menu_list');
+                                      }
+                                    }
 
                                     return Card( //枠線に影をつけるためcardでネスト
                                       child: ListTile(
