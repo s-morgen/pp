@@ -35,13 +35,14 @@ class shop_list {
   final String address;
   final String tel;
   final String time;
+  final String info;
 
   shop_list({required this.shop, required this.img,  required this.post,
-  required this.address,required this.tel,required this.time});
+  required this.address,required this.tel,required this.time,required this.info});
 
   factory shop_list.fromMap(Map<String, dynamic> data) {
     return shop_list(shop: data['shop'],  post: data['post'], img: data['img'],
-    address: data['address'],tel: data['tel'],time: data['time']);
+    address: data['address'],tel: data['tel'],time: data['time'], info: data['info']);
   }
 }
 
