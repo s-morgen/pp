@@ -16,6 +16,8 @@ class menudetailscreen extends StatelessWidget {
   String text;
   String id;
 
+  bool flg = false;
+
   //アレルギー情報をfirebaseから取得
   Future<List<get_allergy>> _fetchPersons_allergy() async {
     final firestore = FirebaseFirestore.instance;
@@ -30,11 +32,23 @@ class menudetailscreen extends StatelessWidget {
       backgroundColor: Colors.yellow[50],
         appBar: AppBar(
           centerTitle: true,
-          title: const Text('メニュー',
-          style:
-            TextStyle(
-              color: Color.fromRGBO(134,108,20, 1),
-            ),
+          title:  Column(
+            children: [
+              //条件によってメニュー名かメニューかのタイトル表示を変える
+              id == ''
+              ? Text('メニュー',
+                  style:
+                    TextStyle(
+                      color: Color.fromRGBO(134,108,20, 1),
+                    ),
+                  )
+              : Text(name,
+                  style:
+                    TextStyle(
+                      color: Color.fromRGBO(134,108,20, 1),
+                    ),
+                ),
+            ],
           ),
           backgroundColor: Color.fromRGBO(250,196,16,1),
           actions: <Widget>[
@@ -66,8 +80,18 @@ class menudetailscreen extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(8.0),
                   alignment: Alignment.bottomLeft,
-                  child: Text(name,
-                    style: TextStyle(fontSize: 24),
+                  child: Column(
+                    children: [
+                      //おしらせページから来た場合は、お知らせタイトルを表示
+                      id ==''
+                      ?
+                      Text(name,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 24),
+                      )
+                      :
+                      Container(),
+                    ],
                   ),
                 ),
 
@@ -121,9 +145,9 @@ class menudetailscreen extends StatelessWidget {
                               title: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    Text('アレルギー情報'),
-                                    Text('${person.allergy}'),
-                                    Container(
+                                    if(person.allergy.isNotEmpty)Text('アレルギー情報'),
+                                    if(person.allergy.isNotEmpty)Text('${person.allergy}'),
+                                    if(id!='')Container(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text('価格は10%税込み価格を表記しています。',
                                         style: TextStyle(
@@ -143,4 +167,5 @@ class menudetailscreen extends StatelessWidget {
         ),
     );
   }
+
 }
