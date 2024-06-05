@@ -21,7 +21,7 @@ class  menuscreen extends StatelessWidget {
   //メニュー情報をfirebaseから取得
    Future<List<Person>> _fetchPersons() async {
      final firestore = FirebaseFirestore.instance;
-     final snapshot = await firestore.collection('menu').get(const GetOptions(source: Source.cache));
+     final snapshot = await firestore.collection('menu').get();
      final persons = snapshot.docs.map((doc) => Person.fromMap(doc.data())).toList();
      return persons;
    }
