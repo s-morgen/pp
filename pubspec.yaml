@@ -84,6 +84,7 @@ flutter:
     - assets/menu/poteto/
     - assets/menu/sweets/
     - assets/menu/drink/
+    - assets/secret/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

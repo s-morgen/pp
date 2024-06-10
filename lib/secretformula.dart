@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pp/secretformuladetail.dart';
 
 //お知らせ画面
 class secretformula extends StatelessWidget {
@@ -51,6 +52,11 @@ class secretformula extends StatelessWidget {
             itemBuilder: (context, index){
               return Card(
                 child: ListTile(
+                  onTap: (){
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                        secretformulascreen(kanbanmenu[index])
+                      ));
+                  },
                   title: Column(
                       children: [
                         ClipRRect(
